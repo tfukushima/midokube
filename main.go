@@ -28,6 +28,7 @@ import (
 
 func runPlugin() int {
 	flag.Parse()
+	defer glog.Flush()
 	nargs := flag.NArg()
 	if nargs < 4 {
 		fmt.Fprintf(os.Stderr,
