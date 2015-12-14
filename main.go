@@ -53,7 +53,7 @@ func runPlugin() int {
 		glog.Fatalf("Invalid action. ")
 		return -1
 	}
-	return 1
+	return 0
 }
 
 func main() {
