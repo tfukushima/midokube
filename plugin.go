@@ -17,6 +17,9 @@ limitations under the License.
 package main
 
 import (
+	"io/ioutil"
+	"os"
+
 	"github.com/golang/glog"
 	kubenetwork "github.com/kubernetes/kubernetes/pkg/kubelet/network"
 	kubetypes "k8s.io/kubernetes/pkg/kubelet/types"
@@ -36,7 +39,12 @@ type NetworkPlugin struct {
 // Initilizes the plugin.
 func (plugin *NetworkPlugin) Init(host kubenetwork.Host) error {
 	glog.Infoln("Init is called")
-	return nil
+	bytes, err := ioutil.ReadAll(os.Stdin)
+	if err != nil {
+		glog.Error(err)
+	}
+	glog.Info(string(bytes))
+	return err
 }
 
 // Returns the plugin name.
@@ -47,17 +55,32 @@ func (plugin *NetworkPlugin) Name() string {
 // Set up MidoNet network and plumb a container in the pod.
 func (plugin *NetworkPlugin) SetupPod(namespace string, name string, id kubetypes.DockerID) error {
 	glog.Infof("SetUpPod is called with %s %s %s\n", namespace, name, id)
-	return nil
+	bytes, err := ioutil.ReadAll(os.Stdin)
+	if err != nil {
+		glog.Error(err)
+	}
+	glog.Info(string(bytes))
+	return err
 }
 
 // Cleanup the network set up by  SetUpPod.
 func (plugin *NetworkPlugin) TearDownPod(namespace string, name string, id kubetypes.DockerID) error {
 	glog.Infof("TearDownPod is called with %s %s %s\n", namespace, name, id)
-	return nil
+	bytes, err := ioutil.ReadAll(os.Stdin)
+	if err != nil {
+		glog.Error(err)
+	}
+	glog.Info(string(bytes))
+	return err
 }
 
 // Returns the IP address of the container
 func (plugin *NetworkPlugin) Status(namespace string, name string, id kubetypes.DockerID) (*kubenetwork.PodNetworkStatus, error) {
 	glog.Infof("Status is called with %s %s %s\n", namespace, name, id)
-	return nil, nil
+	bytes, err := ioutil.ReadAll(os.Stdin)
+	if err != nil {
+		glog.Error(err)
+	}
+	glog.Info(string(bytes))
+	return nil, err
 }
