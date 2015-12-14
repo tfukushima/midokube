@@ -18,7 +18,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"os"
 
 	"github.com/golang/glog"
@@ -30,13 +29,19 @@ func runPlugin() int {
 	flag.Parse()
 	defer glog.Flush()
 	nargs := flag.NArg()
-	if nargs < 4 {
-		fmt.Fprintf(os.Stderr,
-			"Usage: midokube <action> <pod_namespace> <pod_name> <docker_id_of_infra_container>\n")
+	args := flag.Args()
+	if nargs == 0 {
+		glog.Error(
+			"Usage: midokube <action> <pod_namespace> <pod_name> <docker_id_of_infra_container>")
 		return -1
 	}
-	args := flag.Args()
 	action := args[0]
+	if action != Init && nargs < 4 {
+		glog.Errorf("Too few arguments: %d, %v\n", nargs, args)
+		glog.Error(
+			"Usage: midokube <action> <pod_namespace> <pod_name> <docker_id_of_infra_container>")
+		return -1
+	}
 
 	plugin := &NetworkPlugin{}
 
